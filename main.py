@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+import yt_dlp
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -6,19 +7,44 @@ app = FastAPI()
 class ExtractRequest(BaseModel):
     url: str
 
-@app.post("/info")
-async def get_info(data: ExtractRequest):
-    url = data.url.strip().split('?')[0]
-    # Instagram reels ko post format mein badalna extraction ke liye behtar hai
-    if "instagram.com/reels/" in url:
-        url = url.replace("/reels/", "/p/")
-    
-    return {
-        "clean_url": url,
-        "is_youtube": "youtube.com" in url or "youtu.be" in url,
-        "is_instagram": "instagram.com" in url
+@app.post("/extract")
+async def extract_video(data: ExtractRequest):
+    # Snaptube style: Sirf direct URLs aur metadata uthana
+    ydl_opts = {
+        'format': 'best[height<=720][ext=mp4]/best', # Sirf 720p mang rahe hain
+        'quiet': True,
+        'no_warnings': True,
+        'skip_download': True,
+        'noplaylist': True,
+        # Yeh headers zaroori hain YouTube ko dhokha dene ke liye
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        }
     }
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(data.url, download=False)
+            
+            # Direct link nikalna (YouTube itag 22 ya Instagram best link)
+            video_url = info.get('url')
+            if not video_url and 'formats' in info:
+                # Combined format dhundna (vcodec aur acodec dono ho)
+                for f in info['formats']:
+                    if f.get('height') <= 720 and f.get('vcodec') != 'none' and f.get('acodec') != 'none':
+                        video_url = f.get('url')
+                        break
+            
+            if not video_url:
+                raise Exception("Direct link not found")
+
+            return {
+                "success": True,
+                "title": info.get('title', 'Video'),
+                "videoUrl": video_url,
+                "thumbnail": info.get('thumbnail'),
+                "source": "youtube" if "youtu" in data.url else "instagram"
+            }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
