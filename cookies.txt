@@ -11,12 +11,6 @@
 .instagram.com	TRUE	/	TRUE	1768641670	wd	1920x953
 .instagram.com	TRUE	/	TRUE	0	rur	"NHA\05479643582532\0541799572881:01fe9eec9498ec573ac26583a7376744eed0cd7a6ae4f841aeabd68c44ab788ad36b0c2e"
 .instagram.com	TRUE	/	TRUE	1799572880	sessionid	79643582532%3AkwHzxyLUjN08s1%3A24%3AAYjGskNbtSp5-axD0-f863qV6q9-SXtt8z_azvwSUw
-
-
-# Netscape HTTP Cookie File
-# https://curl.haxx.se/rfc/cookie_spec.html
-# This is a generated file! Do not edit.
-
 .youtube.com	TRUE	/	TRUE	1788514392	LOGIN_INFO	AFmmF2swRQIhAMH3fLtog8rENInowesCCG9JCB4cNwlHGFTimsXCtUR4AiAz89IHsIX2roYjGBzFhqkGPFV76ydYnKX7XcDssSNsng:QUQ3MjNmekU5a0dkeDZlbS0zRTc4YmdnNTFHN0xFSGNhWHJaRUVuT2dqQ1JkbzRxczFCNWE3TVBjd1k5bUhaS29qSzV1aDRfMzBEU1BqVnhfWlNmM01kMTdsM3pSclNCczZtVUZ6b1VlZ3c0c0NIa29SeU9Nd2pHdzBPZGwyWHZlc2tEWFFVYzR3SmM3dVJmckU4TjlYZjZmMlBmYVlaLUNR
 .youtube.com	TRUE	/	TRUE	1802944802	PREF	tz=Asia.Calcutta&f6=40000000&f7=100
 .youtube.com	TRUE	/	FALSE	1801989783	HSID	A5kZTMTpfpvmoqOuj
