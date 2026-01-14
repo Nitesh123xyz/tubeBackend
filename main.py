@@ -9,18 +9,21 @@ class ExtractRequest(BaseModel):
 
 @app.post("/extract")
 async def extract_video(data: ExtractRequest):
-    # Snaptube style: Sirf direct URLs aur metadata uthana
+    
     ydl_opts = {
-        'format': 'best[height<=720][ext=mp4]/best', # Sirf 720p mang rahe hain
-        'quiet': True,
-        'no_warnings': True,
-        'skip_download': True,
-        'noplaylist': True,
-        # Yeh headers zaroori hain YouTube ko dhokha dene ke liye
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        }
+    'format': 'best[height<=720][ext=mp4]/best',
+    'cookiefile': 'cookies.txt',
+    'quiet': True,
+    'no_warnings': True,
+    'skip_download': True,
+    'noplaylist': True,
+    'http_headers': {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Referer': 'https://www.google.com/',
+        'Origin': 'https://www.youtube.com',
+    }
     }
 
     try:
